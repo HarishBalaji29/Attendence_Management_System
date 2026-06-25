@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
@@ -13,6 +13,10 @@ const defaultMode = localStorage.getItem('color-mode') || 'dark'
 
 function Root() {
   const [mode, setMode] = useState(defaultMode)
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', mode)
+  }, [mode])
 
   const colorMode = useMemo(
     () => ({

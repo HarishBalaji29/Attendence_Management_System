@@ -19,7 +19,8 @@ import {
   Chip,
   LinearProgress,
   CircularProgress,
-  Tooltip
+  Tooltip,
+  Divider
 } from '@mui/material'
 import { Print as PrintIcon } from '@mui/icons-material'
 import { BarChart, Bar, XAxis, YAxis, Tooltip as ChartTooltip, ResponsiveContainer, Legend } from 'recharts'
@@ -128,32 +129,53 @@ export default function Summary() {
 
       {/* Filters */}
       <Card sx={{ mb: 4, '@media print': { display: 'none' } }}>
-        <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} sm={4} md={3}>
+        <CardContent sx={{ p: 2.5, '&:last-child': { pb: 2.5 } }}>
+          <Box sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            alignItems: { xs: 'stretch', md: 'flex-end' },
+            gap: 2,
+            width: '100%'
+          }}>
+
+            {/* Date From */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75, flex: 1, minWidth: { md: 160 } }}>
+              <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.72rem', px: 0.5 }}>
+                Date From
+              </Typography>
               <TextField
-                label="Date From"
                 type="date"
+                size="small"
                 fullWidth
                 value={filters.date_from}
                 onChange={e => setFilter('date_from', e.target.value)}
                 InputLabelProps={{ shrink: true }}
               />
-            </Grid>
-            <Grid item xs={12} sm={4} md={3}>
+            </Box>
+
+            {/* Date To */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75, flex: 1, minWidth: { md: 160 } }}>
+              <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.72rem', px: 0.5 }}>
+                Date To
+              </Typography>
               <TextField
-                label="Date To"
                 type="date"
+                size="small"
                 fullWidth
                 value={filters.date_to}
                 onChange={e => setFilter('date_to', e.target.value)}
                 InputLabelProps={{ shrink: true }}
               />
-            </Grid>
-            <Grid item xs={12} sm={4} md={3}>
+            </Box>
+
+            {/* Department */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75, flex: 1, minWidth: { md: 180 } }}>
+              <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.72rem', px: 0.5 }}>
+                Department
+              </Typography>
               <TextField
                 select
-                label="Department"
+                size="small"
                 fullWidth
                 value={filters.department}
                 onChange={e => setFilter('department', e.target.value)}
@@ -163,19 +185,24 @@ export default function Summary() {
                   <MenuItem key={d} value={d}>{d}</MenuItem>
                 ))}
               </TextField>
-            </Grid>
-            <Grid item xs={12} md={3}>
+            </Box>
+
+            {/* View Report Button */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75, flex: 1, minWidth: { md: 150 } }}>
+              <Typography variant="caption" sx={{ fontSize: '0.72rem', opacity: 0 }}>{'‎'}</Typography>
               <Button
                 variant="contained"
                 color="primary"
                 onClick={load}
                 fullWidth
-                sx={{ py: 1.2 }}
+                size="small"
+                sx={{ py: 1 }}
               >
                 View Report
               </Button>
-            </Grid>
-          </Grid>
+            </Box>
+
+          </Box>
         </CardContent>
       </Card>
 

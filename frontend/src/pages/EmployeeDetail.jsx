@@ -205,7 +205,7 @@ export default function EmployeeDetail() {
                 <Box>
                   <TableContainer component={Paper} sx={{ bgcolor: 'transparent', backgroundImage: 'none', border: 'none', boxShadow: 'none' }}>
                     <Table>
-                      <TableHead sx={{ bgcolor: 'rgba(255,255,255,0.02)' }}>
+                      <TableHead>
                         <TableRow>
                           <TableCell sx={{ fontWeight: 600 }}>Date</TableCell>
                           <TableCell sx={{ fontWeight: 600 }}>Day</TableCell>
@@ -238,7 +238,7 @@ export default function EmployeeDetail() {
 
                   {/* Pagination */}
                   {attendance.total_pages > 1 && (
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 3, borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 3, borderTop: '1px solid', borderTopColor: 'divider' }}>
                       <Pagination
                         count={attendance.total_pages}
                         page={page}

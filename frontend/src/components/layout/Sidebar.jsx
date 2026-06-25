@@ -30,7 +30,7 @@ const adminNav = [
   { to: '/employees', icon: <PeopleIcon />, label: 'Employees' },
   { to: '/attendance', icon: <AccessTimeIcon />, label: 'Attendance' },
   { to: '/attendance-requests', icon: <FingerprintIcon />, label: 'Regularization' },
-  // { to: '/summary', icon: <BarChartIcon />, label: 'Reports' },
+  { to: '/summary', icon: <BarChartIcon />, label: 'Reports' },
   { to: '/users', icon: <AdminPanelSettingsIcon />, label: 'User Management' },
   // { to: '/queries', icon: <QuestionAnswerIcon />, label: 'EMP Queries' },
 ]
@@ -54,7 +54,7 @@ export default function Sidebar({ mobileOpen, onClose, drawerWidth = 260 }) {
   }
 
   const drawerContent = (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: '#111115', borderRight: '1px solid rgba(255, 255, 255, 0.08)' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: theme.palette.mode === 'light' ? '#ffffff' : '#111115', borderRight: '1px solid', borderRightColor: 'divider' }}>
       {/* Logo */}
       <Box sx={{ p: 3, display: 'flex', alignItems: 'center', gap: 1.5 }}>
         <Box sx={{
@@ -69,7 +69,7 @@ export default function Sidebar({ mobileOpen, onClose, drawerWidth = 260 }) {
         }}>
           <FingerprintIcon />
         </Box>
-        <Typography variant="h6" sx={{ fontWeight: 800, color: '#ffffff', letterSpacing: '0.5px' }}>
+        <Typography variant="h6" sx={{ fontWeight: 800, color: 'text.primary', letterSpacing: '0.5px' }}>
           Attend<Box component="span" sx={{ color: '#ff5a36' }}>X</Box>
         </Typography>
       </Box>
@@ -99,10 +99,10 @@ export default function Sidebar({ mobileOpen, onClose, drawerWidth = 260 }) {
                     }
                   },
                   '&:hover:not(.active)': {
-                    bgcolor: 'rgba(255, 255, 255, 0.04)',
-                    color: '#ffffff',
+                    bgcolor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.04)',
+                    color: 'text.primary',
                     '& .MuiListItemIcon-root': {
-                      color: '#ffffff'
+                      color: 'text.primary'
                     }
                   }
                 }}
@@ -122,20 +122,21 @@ export default function Sidebar({ mobileOpen, onClose, drawerWidth = 260 }) {
         <Box sx={{
           p: 2,
           borderRadius: 2,
-          bgcolor: 'rgba(25, 25, 30, 0.45)',
-          border: '1px solid rgba(255, 255, 255, 0.06)'
+          bgcolor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.02)' : 'rgba(25, 25, 30, 0.45)',
+          border: '1px solid',
+          borderColor: 'divider'
         }}>
           <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 0.5 }}>
             Logged in as
           </Typography>
-          <Typography variant="body2" sx={{ fontWeight: 600, color: '#ffffff', mb: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary', mb: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {user?.username}
           </Typography>
           <Chip
             label={user?.role}
             size="small"
             sx={{
-              bgcolor: user?.role === 'admin' ? 'rgba(255, 90, 54, 0.15)' : 'rgba(255, 255, 255, 0.08)',
+              bgcolor: user?.role === 'admin' ? 'rgba(255, 90, 54, 0.15)' : theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.08)',
               color: user?.role === 'admin' ? '#ff5a36' : 'text.secondary',
               fontWeight: 600,
               textTransform: 'capitalize',
@@ -175,7 +176,7 @@ export default function Sidebar({ mobileOpen, onClose, drawerWidth = 260 }) {
         ModalProps={{ keepMounted: true }}
         sx={{
           display: { xs: 'block', md: 'none' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, borderRight: '1px solid', borderRightColor: 'divider' },
         }}
       >
         {drawerContent}
@@ -186,7 +187,7 @@ export default function Sidebar({ mobileOpen, onClose, drawerWidth = 260 }) {
         variant="permanent"
         sx={{
           display: { xs: 'none', md: 'block' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, borderRight: 'none' },
+          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, borderRight: '1px solid', borderRightColor: 'divider' },
         }}
         open
       >

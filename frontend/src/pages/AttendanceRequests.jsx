@@ -21,7 +21,8 @@ import {
   Paper,
   Chip,
   IconButton,
-  CircularProgress
+  CircularProgress,
+  useTheme
 } from '@mui/material'
 import {
   CheckCircle as CheckCircleIcon,
@@ -32,6 +33,7 @@ import toast from 'react-hot-toast'
 import { format } from 'date-fns'
 
 function ApprovalModal({ request, onClose, onSuccess }) {
+  const theme = useTheme()
   const [notes, setNotes] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -71,8 +73,9 @@ function ApprovalModal({ request, onClose, onSuccess }) {
       fullWidth
       PaperProps={{
         sx: {
-          bgcolor: '#111115',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
+          bgcolor: 'background.paper',
+          border: '1px solid',
+          borderColor: 'divider',
           borderRadius: 3,
           backgroundImage: 'none'
         }
@@ -86,7 +89,7 @@ function ApprovalModal({ request, onClose, onSuccess }) {
           <CloseIcon />
         </IconButton>
       </DialogTitle>
-      <DialogContent dividers sx={{ borderColor: 'rgba(255, 255, 255, 0.08)', py: 3 }}>
+      <DialogContent dividers sx={{ borderColor: 'divider', py: 3 }}>
         <Grid container spacing={2.5}>
           <Grid item xs={12} sm={6}>
             <Typography variant="caption" color="text.secondary" sx={{ textTransform: 'uppercase', fontWeight: 600 }}>
@@ -110,9 +113,10 @@ function ApprovalModal({ request, onClose, onSuccess }) {
             </Typography>
             <Box sx={{
               p: 2,
-              bgcolor: 'rgba(255, 255, 255, 0.03)',
+              bgcolor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.02)' : 'rgba(255, 255, 255, 0.03)',
               borderRadius: 2,
-              border: '1px solid rgba(255, 255, 255, 0.06)',
+              border: '1px solid',
+              borderColor: 'divider',
               minHeight: 60,
               fontSize: '0.9rem',
               color: 'text.secondary'
@@ -242,7 +246,7 @@ export default function AttendanceRequests() {
           <Box>
             <TableContainer component={Paper} sx={{ bgcolor: 'transparent', backgroundImage: 'none', border: 'none', boxShadow: 'none' }}>
               <Table>
-                <TableHead sx={{ bgcolor: 'rgba(255,255,255,0.02)' }}>
+                <TableHead>
                   <TableRow>
                     <TableCell sx={{ fontWeight: 600 }}>Employee</TableCell>
                     <TableCell sx={{ fontWeight: 600 }}>Date</TableCell>
@@ -291,7 +295,7 @@ export default function AttendanceRequests() {
 
             {/* Pagination */}
             {requests.total_pages > 1 && (
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 3, borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 3, borderTop: '1px solid', borderTopColor: 'divider' }}>
                 <Typography variant="body2" color="text.secondary">
                   Page {requests.page} of {requests.total_pages}
                 </Typography>

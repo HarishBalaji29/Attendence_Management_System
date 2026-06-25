@@ -25,7 +25,8 @@ import {
   DialogActions,
   Pagination,
   CircularProgress,
-  Tooltip
+  Tooltip,
+  useTheme
 } from '@mui/material'
 import {
   Add as AddIcon,
@@ -40,6 +41,7 @@ const STATUS_OPTS = ['Present', 'Absent', 'Late', 'Half-Day']
 
 function MarkModal({ employees, onClose, onSave }) {
   const { isAdmin, user } = useAuth()
+  const theme = useTheme()
   const [form, setForm] = useState({
     employee_id: isAdmin ? '' : String(user?.employee_id || ''),
     attendance_date: format(new Date(), 'yyyy-MM-dd'),
@@ -79,8 +81,9 @@ function MarkModal({ employees, onClose, onSave }) {
       fullWidth
       PaperProps={{
         sx: {
-          bgcolor: '#111115',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
+          bgcolor: 'background.paper',
+          border: '1px solid',
+          borderColor: 'divider',
           borderRadius: 3,
           backgroundImage: 'none'
         }
@@ -95,7 +98,7 @@ function MarkModal({ employees, onClose, onSave }) {
         </IconButton>
       </DialogTitle>
       <Box component="form" onSubmit={handleSubmit}>
-        <DialogContent dividers sx={{ borderColor: 'rgba(255, 255, 255, 0.08)', py: 3 }}>
+        <DialogContent dividers sx={{ borderColor: 'divider', py: 3 }}>
           <Grid container spacing={2.5}>
             {isAdmin && (
               <Grid item xs={12}>
@@ -107,7 +110,7 @@ function MarkModal({ employees, onClose, onSave }) {
                   onChange={e => set('employee_id', e.target.value)}
                   required
                 >
-                  <option value="" disabled style={{ background: '#111115' }}>Select employee...</option>
+                  <MenuItem value="" disabled>Select employee...</MenuItem>
                   {employees.map(e => (
                     <MenuItem key={e.id} value={e.id}>
                       {e.employee_id} — {e.name}
@@ -184,6 +187,7 @@ function MarkModal({ employees, onClose, onSave }) {
 }
 
 function EditModal({ record, onClose, onSave }) {
+  const theme = useTheme()
   const [form, setForm] = useState({
     check_in: record.check_in || '',
     check_out: record.check_out || '',
@@ -219,8 +223,9 @@ function EditModal({ record, onClose, onSave }) {
       fullWidth
       PaperProps={{
         sx: {
-          bgcolor: '#111115',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
+          bgcolor: 'background.paper',
+          border: '1px solid',
+          borderColor: 'divider',
           borderRadius: 3,
           backgroundImage: 'none'
         }
@@ -235,8 +240,15 @@ function EditModal({ record, onClose, onSave }) {
         </IconButton>
       </DialogTitle>
       <Box component="form" onSubmit={handleSubmit}>
-        <DialogContent dividers sx={{ borderColor: 'rgba(255, 255, 255, 0.08)', py: 3 }}>
-          <Box sx={{ mb: 3, p: 2, bgcolor: 'rgba(255, 255, 255, 0.03)', borderRadius: 2, border: '1px solid rgba(255, 255, 255, 0.06)' }}>
+        <DialogContent dividers sx={{ borderColor: 'divider', py: 3 }}>
+          <Box sx={{
+            mb: 3,
+            p: 2,
+            bgcolor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.02)' : 'rgba(255, 255, 255, 0.03)',
+            borderRadius: 2,
+            border: '1px solid',
+            borderColor: 'divider'
+          }}>
             <Typography variant="body2" sx={{ fontWeight: 600 }}>
               {record.employee_name}
             </Typography>
@@ -414,48 +426,60 @@ export default function Attendance() {
 
       {/* Filters */}
       <Card sx={{ mb: 3 }}>
-        <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} sm={4} md={3}>
+        <CardContent sx={{ p: 2.5, '&:last-child': { pb: 2.5 } }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, alignItems: 'flex-end' }}>
+
+            {/* Filter Date */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
+              <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.72rem', px: 0.5 }}>
+                Filter Date
+              </Typography>
               <TextField
-                label="Filter Date"
                 type="date"
-                fullWidth
+                size="small"
                 value={filters.date}
                 onChange={e => { setFilter('date', e.target.value); setPage(1) }}
                 InputLabelProps={{ shrink: true }}
+                sx={{ minWidth: 180 }}
               />
-            </Grid>
-            <Grid item xs={12} sm={4} md={3}>
+            </Box>
+
+            {/* Filter Status */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
+              <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: '0.72rem', px: 0.5 }}>
+                Filter Status
+              </Typography>
               <TextField
                 select
-                label="Filter Status"
-                fullWidth
+                size="small"
                 value={filters.status}
                 onChange={e => { setFilter('status', e.target.value); setPage(1) }}
+                sx={{ minWidth: 160 }}
               >
                 <MenuItem value="">All Status</MenuItem>
                 {STATUS_OPTS.map(s => (
                   <MenuItem key={s} value={s}>{s}</MenuItem>
                 ))}
               </TextField>
-            </Grid>
+            </Box>
+
+            {/* Clear Button */}
             {hasFilters && (
-              <Grid item xs={12} sm={4} md={2}>
-                <Button
-                  variant="text"
-                  color="inherit"
-                  startIcon={<CloseIcon />}
-                  onClick={() => { clearFilters(); setPage(1) }}
-                  fullWidth
-                >
-                  Clear
-                </Button>
-              </Grid>
+              <Button
+                variant="outlined"
+                color="inherit"
+                startIcon={<CloseIcon />}
+                onClick={() => { clearFilters(); setPage(1) }}
+                size="small"
+                sx={{ whiteSpace: 'nowrap', mb: 0.1 }}
+              >
+                Clear Filters
+              </Button>
             )}
-          </Grid>
+          </Box>
         </CardContent>
       </Card>
+
 
       {/* Table Card */}
       <Card>
@@ -475,7 +499,7 @@ export default function Attendance() {
           <Box>
             <TableContainer component={Paper} sx={{ bgcolor: 'transparent', backgroundImage: 'none', border: 'none', boxShadow: 'none' }}>
               <Table>
-                <TableHead sx={{ bgcolor: 'rgba(255,255,255,0.02)' }}>
+                <TableHead>
                   <TableRow>
                     {isAdmin && <TableCell sx={{ fontWeight: 600 }}>Employee</TableCell>}
                     {isAdmin && <TableCell sx={{ fontWeight: 600 }}>Dept</TableCell>}
@@ -493,7 +517,7 @@ export default function Attendance() {
                       {isAdmin && <TableCell sx={{ fontWeight: 500 }}>{r.employee_name}</TableCell>}
                       {isAdmin && (
                         <TableCell>
-                          <Chip label={r.department} size="small" sx={{ bgcolor: 'rgba(255,255,255,0.05)', color: 'text.secondary', fontWeight: 500 }} />
+                          <Chip label={r.department} size="small" variant="outlined" sx={{ fontWeight: 500 }} />
                         </TableCell>
                       )}
                       <TableCell>{r.attendance_date}</TableCell>
@@ -520,7 +544,7 @@ export default function Attendance() {
 
             {/* Pagination */}
             {data.total_pages > 1 && (
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 3, borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 3, borderTop: '1px solid', borderTopColor: 'divider' }}>
                 <Typography variant="body2" color="text.secondary">
                   Page {page} of {data.total_pages} ({data.total} records)
                 </Typography>

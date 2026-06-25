@@ -25,7 +25,8 @@ import {
   Chip,
   IconButton,
   Pagination,
-  CircularProgress
+  CircularProgress,
+  useTheme
 } from '@mui/material'
 import {
   Add as AddIcon,
@@ -46,6 +47,7 @@ const ATTENDANCE_STATUSES = ['Present', 'Absent', 'Late', 'Half-Day']
 
 function RegularizationRequestModal({ employeeId, onClose, onSuccess }) {
   const navigate = useNavigate()
+  const theme = useTheme()
   const [form, setForm] = useState({
     attendance_date: format(new Date(), 'yyyy-MM-dd'),
     request_type: 'regularization',
@@ -98,8 +100,9 @@ function RegularizationRequestModal({ employeeId, onClose, onSuccess }) {
       fullWidth
       PaperProps={{
         sx: {
-          bgcolor: '#111115',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
+          bgcolor: 'background.paper',
+          border: '1px solid',
+          borderColor: 'divider',
           borderRadius: 3,
           backgroundImage: 'none'
         }
@@ -114,7 +117,7 @@ function RegularizationRequestModal({ employeeId, onClose, onSuccess }) {
         </IconButton>
       </DialogTitle>
       <Box component="form" onSubmit={handleSubmit}>
-        <DialogContent dividers sx={{ borderColor: 'rgba(255, 255, 255, 0.08)', py: 3 }}>
+        <DialogContent dividers sx={{ borderColor: 'divider', py: 3 }}>
           <Grid container spacing={2.5}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -347,7 +350,7 @@ export default function EmployeeAttendance() {
 
       {/* Regularization Requests */}
       <Card sx={{ mb: 4 }}>
-        <Box sx={{ p: 3, borderBottom: '1px solid rgba(255, 255, 255, 0.08)', display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'flex-start', sm: 'center' }, gap: 2 }}>
+        <Box sx={{ p: 3, borderBottom: '1px solid', borderBottomColor: 'divider', display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'flex-start', sm: 'center' }, gap: 2 }}>
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
             My Regularization Requests
           </Typography>
@@ -376,7 +379,7 @@ export default function EmployeeAttendance() {
             <Box>
               <TableContainer component={Paper} sx={{ bgcolor: 'transparent', backgroundImage: 'none', border: 'none', boxShadow: 'none' }}>
                 <Table>
-                  <TableHead sx={{ bgcolor: 'rgba(255,255,255,0.02)' }}>
+                  <TableHead>
                     <TableRow>
                       <TableCell sx={{ fontWeight: 600 }}>Date</TableCell>
                       <TableCell sx={{ fontWeight: 600 }}>Type</TableCell>
@@ -412,7 +415,7 @@ export default function EmployeeAttendance() {
 
               {/* Pagination */}
               {requests.total_pages > 1 && (
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 3, borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 3, borderTop: '1px solid', borderTopColor: 'divider' }}>
                   <Typography variant="body2" color="text.secondary">
                     Page {requests.page} of {requests.total_pages}
                   </Typography>
@@ -443,7 +446,7 @@ export default function EmployeeAttendance() {
 
       {/* Attendance History */}
       <Card>
-        <Box sx={{ p: 3, borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
+        <Box sx={{ p: 3, borderBottom: '1px solid', borderBottomColor: 'divider' }}>
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
             Attendance History
           </Typography>
@@ -458,7 +461,7 @@ export default function EmployeeAttendance() {
             <Box>
               <TableContainer component={Paper} sx={{ bgcolor: 'transparent', backgroundImage: 'none', border: 'none', boxShadow: 'none' }}>
                 <Table>
-                  <TableHead sx={{ bgcolor: 'rgba(255,255,255,0.02)' }}>
+                  <TableHead>
                     <TableRow>
                       <TableCell sx={{ fontWeight: 600 }}>Date</TableCell>
                       <TableCell sx={{ fontWeight: 600 }}>Check In</TableCell>
@@ -504,7 +507,7 @@ export default function EmployeeAttendance() {
 
               {/* Pagination */}
               {history.total_pages > 1 && (
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 3, borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 3, borderTop: '1px solid', borderTopColor: 'divider' }}>
                   <Typography variant="body2" color="text.secondary">
                     Page {history.page} of {history.total_pages}
                   </Typography>

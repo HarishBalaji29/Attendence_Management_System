@@ -73,6 +73,58 @@
   --radius-full: 9999px;
 }
 
+:root[data-theme='light'] {
+  /* Background layers */
+  --bg-base: #f5f7fb;
+  --bg-surface: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-card: rgba(15, 23, 42, 0.02);
+  --bg-card-hover: rgba(15, 23, 42, 0.04);
+  --bg-input: rgba(15, 23, 42, 0.03);
+  --bg-modal: rgba(255, 255, 255, 0.98);
+
+  /* Accent colors */
+  --accent-primary: #ff5a36;
+  --accent-primary-light: #ff7657;
+  --accent-secondary: #e04422;
+  --accent-gradient: linear-gradient(135deg, #ff5a36 0%, #e04422 100%);
+  --accent-glow: rgba(255, 90, 54, 0.15);
+
+  /* Status colors */
+  --status-present: #16a34a;
+  --status-present-bg: rgba(22, 163, 74, 0.08);
+  --status-absent: #dc2626;
+  --status-absent-bg: rgba(220, 38, 38, 0.08);
+  --status-late: #d97706;
+  --status-late-bg: rgba(217, 119, 6, 0.08);
+  --status-halfday: #2563eb;
+  --status-halfday-bg: rgba(37, 99, 235, 0.08);
+  --status-inactive: #4b5563;
+  --status-inactive-bg: rgba(75, 85, 99, 0.08);
+
+  /* Text */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-accent: #ff5a36;
+
+  /* Borders */
+  --border: rgba(15, 23, 42, 0.08);
+  --border-hover: rgba(15, 23, 42, 0.15);
+  --border-accent: rgba(255, 90, 54, 0.3);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-accent: 0 4px 14px 0 rgba(255, 90, 54, 0.15);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(15, 23, 42, 0.06);
+  --glass-blur: blur(20px);
+}
+
 /* ---- Reset & Base ---- */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -117,6 +169,19 @@ body::before {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* ---- Date/Time input segment highlight — override browser blue with app accent ---- */
+input[type="date"]::-webkit-datetime-edit-day-field:focus,
+input[type="date"]::-webkit-datetime-edit-month-field:focus,
+input[type="date"]::-webkit-datetime-edit-year-field:focus,
+input[type="time"]::-webkit-datetime-edit-hour-field:focus,
+input[type="time"]::-webkit-datetime-edit-minute-field:focus,
+input[type="time"]::-webkit-datetime-edit-ampm-field:focus {
+  background-color: rgba(255, 90, 54, 0.25);
+  color: inherit;
+  border-radius: 2px;
+  outline: none;
+}
 
 /* ---- Typography ---- */
 h1, h2, h3, h4, h5, h6 {

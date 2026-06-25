@@ -74,7 +74,7 @@ export default function Login() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      bgcolor: '#0a0a0c',
+      bgcolor: 'background.default',
       position: 'relative',
       overflow: 'hidden',
       p: 2
@@ -115,7 +115,7 @@ export default function Login() {
             }}>
               <FingerprintIcon fontSize="medium" />
             </Box>
-            <Typography variant="h5" sx={{ fontWeight: 800, color: '#ffffff', letterSpacing: '0.5px' }}>
+            <Typography variant="h5" sx={{ fontWeight: 800, color: 'text.primary', letterSpacing: '0.5px' }}>
               Attend<Box component="span" sx={{ color: '#ff5a36' }}>X</Box>
             </Typography>
           </Box>
@@ -229,8 +229,8 @@ export default function Login() {
                   Contact administrator
                 </Button>
                 <Tooltip title="Request password reset help from admin">
-                  <IconButton 
-                    size="small" 
+                  <IconButton
+                    size="small"
                     onClick={() => {
                       setContactForm({ username: '', email: '', phone: '' })
                       setIsSubmitted(false)
@@ -248,8 +248,8 @@ export default function Login() {
       </Card>
 
       {/* Contact Admin Dialog */}
-      <Dialog 
-        open={openContactModal} 
+      <Dialog
+        open={openContactModal}
         onClose={() => setOpenContactModal(false)}
         PaperProps={{
           sx: {

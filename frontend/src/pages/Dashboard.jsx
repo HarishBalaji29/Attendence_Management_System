@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getDashboardStats, getAttendance, markAttendance } from '../api/services'
 import { useAuth } from '../context/AuthContext'
@@ -29,7 +29,9 @@ import {
   IconButton,
   Chip,
   CircularProgress,
-  Tooltip
+  Tooltip,
+  useTheme,
+  useMediaQuery
 } from '@mui/material'
 import {
   People as PeopleIcon,
@@ -45,20 +47,22 @@ import toast from 'react-hot-toast'
 const COLORS = ['#22c55e', '#ef4444', '#f59e0b', '#3b82f6']
 
 const CustomTooltip = ({ active, payload, label }) => {
+  const theme = useTheme()
   if (active && payload?.length) {
     return (
       <Box sx={{
-        bgcolor: '#111115',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        bgcolor: 'background.paper',
+        border: '1px solid',
+        borderColor: 'divider',
         borderRadius: 2,
         p: '8px 14px',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.5)'
+        boxShadow: theme.palette.mode === 'light' ? '0 4px 12px rgba(15, 23, 42, 0.08)' : '0 4px 20px rgba(0,0,0,0.5)'
       }}>
         <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
           {label}
         </Typography>
         {payload.map((p, i) => (
-          <Typography key={i} variant="body2" sx={{ color: p.color || '#ffffff', fontWeight: 600 }}>
+          <Typography key={i} variant="body2" sx={{ color: p.color || 'text.primary', fontWeight: 600 }}>
             {p.name}: {p.value}
           </Typography>
         ))}
@@ -152,8 +156,9 @@ function MarkModal({ onClose, onSave }) {
       fullWidth
       PaperProps={{
         sx: {
-          bgcolor: '#111115',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
+          bgcolor: 'background.paper',
+          border: '1px solid',
+          borderColor: 'divider',
           borderRadius: 3,
           backgroundImage: 'none'
         }
@@ -168,7 +173,7 @@ function MarkModal({ onClose, onSave }) {
         </IconButton>
       </DialogTitle>
       <Box component="form" onSubmit={handleSubmit}>
-        <DialogContent dividers sx={{ borderColor: 'rgba(255, 255, 255, 0.08)', py: 3 }}>
+        <DialogContent dividers sx={{ borderColor: 'divider', py: 3 }}>
           <Grid container spacing={2.5}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -245,6 +250,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [showMarkModal, setShowMarkModal] = useState(false)
   const { isAdmin, user } = useAuth()
+  const theme = useTheme()
   const navigate = useNavigate()
 
   const load = useCallback(async () => {
@@ -360,8 +366,8 @@ export default function Dashboard() {
                 <Box sx={{ width: '100%', height: 240 }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={stats?.departments || []} barSize={32}>
-                      <XAxis dataKey="department" tick={{ fill: '#a1a1aa', fontSize: 12 }} axisLine={false} tickLine={false} />
-                      <YAxis tick={{ fill: '#a1a1aa', fontSize: 12 }} axisLine={false} tickLine={false} />
+                      <XAxis dataKey="department" tick={{ fill: theme.palette.text.secondary, fontSize: 12 }} axisLine={false} tickLine={false} />
+                      <YAxis tick={{ fill: theme.palette.text.secondary, fontSize: 12 }} axisLine={false} tickLine={false} />
                       <ChartTooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)' }} />
                       <Bar dataKey="count" name="Employees" fill="url(#barGrad)" radius={[6, 6, 0, 0]} />
                       <defs>
@@ -392,7 +398,7 @@ export default function Dashboard() {
                           {pieData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                         </Pie>
                         <ChartTooltip content={<CustomTooltip />} />
-                        <Legend iconType="circle" iconSize={8} formatter={(val) => <span style={{ color: '#a1a1aa', fontSize: 13 }}>{val}</span>} />
+                        <Legend iconType="circle" iconSize={8} formatter={(val) => <span style={{ color: theme.palette.text.secondary, fontSize: 13 }}>{val}</span>} />
                       </PieChart>
                     </ResponsiveContainer>
                   ) : (
@@ -424,7 +430,7 @@ export default function Dashboard() {
           {recent.length > 0 ? (
             <TableContainer component={Paper} sx={{ bgcolor: 'transparent', backgroundImage: 'none', border: 'none', boxShadow: 'none' }}>
               <Table>
-                <TableHead sx={{ bgcolor: 'rgba(255,255,255,0.02)' }}>
+                <TableHead>
                   <TableRow>
                     {isAdmin && <TableCell sx={{ fontWeight: 600 }}>Employee</TableCell>}
                     {isAdmin && <TableCell sx={{ fontWeight: 600 }}>Department</TableCell>}
@@ -440,7 +446,7 @@ export default function Dashboard() {
                       {isAdmin && <TableCell sx={{ fontWeight: 500 }}>{r.employee_name}</TableCell>}
                       {isAdmin && (
                         <TableCell>
-                          <Chip label={r.department} size="small" sx={{ bgcolor: 'rgba(255,255,255,0.05)', color: 'text.secondary', fontWeight: 500 }} />
+                          <Chip label={r.department} size="small" variant="outlined" sx={{ fontWeight: 500 }} />
                         </TableCell>
                       )}
                       <TableCell>{r.attendance_date}</TableCell>

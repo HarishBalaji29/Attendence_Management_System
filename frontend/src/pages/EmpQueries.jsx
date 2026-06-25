@@ -84,7 +84,7 @@ export default function EmpQueries() {
       {/* Header */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4, flexWrap: 'wrap', gap: 2 }}>
         <Box>
-          <Typography variant="h4" sx={{ fontWeight: 800, color: '#ffffff', display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          <Typography variant="h4" sx={{ fontWeight: 800, color: 'text.primary', display: 'flex', alignItems: 'center', gap: 1.5 }}>
             <QuestionAnswerIcon sx={{ color: '#ff5a36', fontSize: 32 }} />
             Employee Queries
           </Typography>
@@ -96,11 +96,12 @@ export default function EmpQueries() {
           onClick={fetchQueries} 
           disabled={loading}
           sx={{ 
-            bgcolor: 'rgba(255, 255, 255, 0.03)', 
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            color: '#ffffff',
+            bgcolor: 'background.paper', 
+            border: '1px solid',
+            borderColor: 'divider',
+            color: 'text.primary',
             '&:hover': {
-              bgcolor: 'rgba(255, 255, 255, 0.08)'
+              bgcolor: 'action.hover'
             }
           }}
         >
@@ -150,7 +151,7 @@ export default function EmpQueries() {
         <Card sx={{ textAlign: 'center', py: 8 }}>
           <CardContent>
             <QuestionAnswerIcon sx={{ fontSize: 48, color: 'text.secondary', opacity: 0.5, mb: 2 }} />
-            <Typography variant="h6" sx={{ color: '#ffffff', fontWeight: 600 }}>
+            <Typography variant="h6" sx={{ color: 'text.primary', fontWeight: 600 }}>
               No queries found
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
@@ -180,7 +181,7 @@ export default function EmpQueries() {
                     transition: 'background-color 0.2s'
                   }}
                 >
-                  <TableCell sx={{ fontWeight: 500, color: '#ffffff' }}>
+                  <TableCell sx={{ fontWeight: 500, color: 'text.primary' }}>
                     {query.username}
                   </TableCell>
                   <TableCell>{query.email}</TableCell>

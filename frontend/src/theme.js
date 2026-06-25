@@ -136,6 +136,64 @@ const getDesignTokens = (mode) => ({
         }),
       },
     },
+    MuiTableHead: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: theme.palette.mode === 'light'
+            ? 'rgba(15, 23, 42, 0.04)'
+            : 'rgba(255, 255, 255, 0.03)',
+          '& .MuiTableCell-head': {
+            color: theme.palette.text.primary,
+            fontWeight: 600,
+            fontSize: '0.875rem',
+          },
+        }),
+      },
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          '&:hover': {
+            backgroundColor: theme.palette.mode === 'light'
+              ? 'rgba(15, 23, 42, 0.03)'
+              : 'rgba(255, 255, 255, 0.03)',
+          },
+        }),
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          borderBottomColor: theme.palette.divider,
+          color: theme.palette.text.primary,
+        }),
+      },
+    },
+    MuiAvatar: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: theme.palette.mode === 'light'
+            ? 'rgba(255, 90, 54, 0.12)'
+            : 'rgba(255, 255, 255, 0.1)',
+          color: theme.palette.mode === 'light'
+            ? '#ff5a36'
+            : '#ffffff',
+          fontWeight: 600,
+        }),
+      },
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          '&.MuiChip-colorDefault': {
+            backgroundColor: theme.palette.mode === 'light'
+              ? 'rgba(15, 23, 42, 0.07)'
+              : 'rgba(255, 255, 255, 0.08)',
+            color: theme.palette.text.secondary,
+          },
+        }),
+      },
+    },
   },
 })
 

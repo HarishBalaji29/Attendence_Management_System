@@ -28,7 +28,8 @@ import {
   DialogActions,
   Pagination,
   CircularProgress,
-  Tooltip
+  Tooltip,
+  useTheme
 } from '@mui/material'
 import {
   Search as SearchIcon,
@@ -46,6 +47,7 @@ const INITIAL_FORM = {
 }
 
 function EmployeeModal({ mode, employee, onClose, onSave }) {
+  const theme = useTheme()
   const [form, setForm] = useState(mode === 'edit' ? { ...employee } : { ...INITIAL_FORM })
   const [loading, setLoading] = useState(false)
 
@@ -78,8 +80,9 @@ function EmployeeModal({ mode, employee, onClose, onSave }) {
       fullWidth
       PaperProps={{
         sx: {
-          bgcolor: '#111115',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
+          bgcolor: 'background.paper',
+          border: '1px solid',
+          borderColor: 'divider',
           borderRadius: 3,
           backgroundImage: 'none'
         }
@@ -94,7 +97,7 @@ function EmployeeModal({ mode, employee, onClose, onSave }) {
         </IconButton>
       </DialogTitle>
       <Box component="form" onSubmit={handleSubmit}>
-        <DialogContent dividers sx={{ borderColor: 'rgba(255, 255, 255, 0.08)', py: 3 }}>
+        <DialogContent dividers sx={{ borderColor: 'divider', py: 3 }}>
           <Grid container spacing={2.5}>
             {mode === 'add' && (
               <Grid item xs={12} sm={6}>
@@ -184,6 +187,7 @@ function EmployeeModal({ mode, employee, onClose, onSave }) {
 }
 
 function DeleteConfirm({ employee, onClose, onConfirm }) {
+  const theme = useTheme()
   const [loading, setLoading] = useState(false)
   const handleConfirm = async () => {
     setLoading(true)
@@ -196,8 +200,9 @@ function DeleteConfirm({ employee, onClose, onConfirm }) {
       onClose={onClose}
       PaperProps={{
         sx: {
-          bgcolor: '#111115',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
+          bgcolor: 'background.paper',
+          border: '1px solid',
+          borderColor: 'divider',
           borderRadius: 3,
           backgroundImage: 'none',
           maxWidth: 400
@@ -373,7 +378,7 @@ export default function Employees() {
           <Box>
             <TableContainer component={Paper} sx={{ bgcolor: 'transparent', backgroundImage: 'none', border: 'none', boxShadow: 'none' }}>
               <Table>
-                <TableHead sx={{ bgcolor: 'rgba(255,255,255,0.02)' }}>
+                <TableHead>
                   <TableRow>
                     <TableCell sx={{ fontWeight: 600 }}>Emp ID</TableCell>
                     <TableCell sx={{ fontWeight: 600 }}>Name</TableCell>
@@ -389,11 +394,11 @@ export default function Employees() {
                   {data.items.map(emp => (
                     <TableRow key={emp.id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                       <TableCell>
-                        <Chip label={emp.employee_id} size="small" sx={{ bgcolor: 'rgba(255,255,255,0.05)', color: 'text.secondary', fontWeight: 500 }} />
+                        <Chip label={emp.employee_id} size="small" variant="outlined" sx={{ fontWeight: 500 }} />
                       </TableCell>
                       <TableCell>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                          <Avatar sx={{ width: 32, height: 32, fontSize: '0.85rem', bgcolor: 'rgba(255, 255, 255, 0.08)', color: '#ffffff' }}>
+                          <Avatar sx={{ width: 32, height: 32, fontSize: '0.85rem' }}>
                             {emp.name.slice(0, 2).toUpperCase()}
                           </Avatar>
                           <Typography variant="body2" sx={{ fontWeight: 500 }}>
@@ -441,7 +446,7 @@ export default function Employees() {
 
             {/* Pagination */}
             {data.total_pages > 1 && (
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 3, borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 3, borderTop: '1px solid', borderTopColor: 'divider' }}>
                 <Typography variant="body2" color="text.secondary">
                   Showing {((page - 1) * 10) + 1}–{Math.min(page * 10, data.total)} of {data.total}
                 </Typography>

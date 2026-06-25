@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import {
   AppBar,
   Toolbar,
@@ -12,17 +12,23 @@ import {
   Divider,
   Tooltip,
   Typography,
+  useTheme
 } from '@mui/material'
 import {
   Menu as MenuIcon,
   ExitToApp as LogoutIcon,
+  Brightness4 as Brightness4Icon,
+  Brightness7 as Brightness7Icon
 } from '@mui/icons-material'
 import { useAuth } from '../../context/AuthContext'
+import { ColorModeContext } from '../../context/ThemeContext.jsx'
 
 export default function Topbar({ onMenuClick }) {
   const { user, logout } = useAuth()
   const [anchorEl, setAnchorEl] = useState(null)
   const openMenu = Boolean(anchorEl)
+  const theme = useTheme()
+  const colorMode = useContext(ColorModeContext)
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget)
@@ -45,9 +51,10 @@ export default function Topbar({ onMenuClick }) {
       sx={{
         width: { md: `calc(100% - 260px)` },
         ml: { md: `260px` },
-        bgcolor: 'rgba(10, 10, 12, 0.8)',
+        bgcolor: theme.palette.mode === 'light' ? 'rgba(255, 255, 255, 0.85)' : 'rgba(10, 10, 12, 0.8)',
         backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+        borderBottom: '1px solid',
+        borderBottomColor: 'divider',
         boxShadow: 'none',
         backgroundImage: 'none',
       }}
@@ -67,8 +74,23 @@ export default function Topbar({ onMenuClick }) {
             </IconButton>
           </Box>
 
-          {/* Right Section (Account menu) */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          {/* Right Section (Account menu & Theme Toggle) */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+            <Tooltip title={theme.palette.mode === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'} arrow>
+              <IconButton 
+                onClick={colorMode.toggleColorMode} 
+                color="inherit" 
+                sx={{ 
+                  color: 'text.secondary',
+                  '&:hover': {
+                    color: 'text.primary'
+                  }
+                }}
+              >
+                {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+              </IconButton>
+            </Tooltip>
+
             <Tooltip title="Account settings" arrow>
               <Avatar
                 onClick={handleMenuOpen}
@@ -96,9 +118,10 @@ export default function Topbar({ onMenuClick }) {
               anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               PaperProps={{
                 sx: {
-                  bgcolor: '#111115',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
-                  boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.5)',
+                  bgcolor: 'background.paper',
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  boxShadow: theme.palette.mode === 'light' ? '0 8px 32px 0 rgba(15, 23, 42, 0.08)' : '0 8px 32px 0 rgba(0, 0, 0, 0.5)',
                   minWidth: 200,
                   mt: 1.5,
                   '& .MuiMenuItem-root': {
@@ -109,7 +132,7 @@ export default function Topbar({ onMenuClick }) {
               }}
             >
               <Box sx={{ px: 2, py: 1.5 }}>
-                <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#ffffff' }}>
+                <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'text.primary' }}>
                   {user?.username}
                 </Typography>
                 <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.8rem', wordBreak: 'break-all' }}>
