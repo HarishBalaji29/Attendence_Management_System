@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, DateTime, ForeignKey, Text, func
+from sqlalchemy import Column, Integer, String, Date, DateTime, Time, ForeignKey, Text, func
 from sqlalchemy.orm import relationship
 from app.database import Base
 
@@ -12,8 +12,8 @@ class AttendanceRequest(Base):
     attendance_date = Column(Date, nullable=False, index=True)
     request_type = Column(String(20), nullable=False, default="regularization")  # "regularization" | "correction"
     status = Column(String(20), nullable=False, default="pending")  # "pending" | "approved" | "rejected"
-    check_in = Column(DateTime(timezone=False), nullable=True)
-    check_out = Column(DateTime(timezone=False), nullable=True)
+    check_in = Column(Time(timezone=False), nullable=True)
+    check_out = Column(Time(timezone=False), nullable=True)
     requested_status = Column(String(10), nullable=False, default="Present")  # Present | Absent | Late | Half-Day
     reason = Column(Text, nullable=True)
     admin_notes = Column(Text, nullable=True)
